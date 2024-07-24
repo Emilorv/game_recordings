@@ -1,18 +1,19 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:record/record.dart';
 
 class Recorder extends StatefulWidget {
-  final Function(String) onStop;
-  final AudioRecorder record;
+  final Record record;
+  bool isRecording;
+  String path;
 
-  const Recorder({super.key, required this.record, required this.onStop});
+  Recorder({super.key, required this.record, required this.isRecording, required this.path});
 
   @override
   RecorderState createState() => RecorderState();
 }
 
 class RecorderState extends State<Recorder> {
-  bool isRecording = false;
 
   @override
 
@@ -23,27 +24,43 @@ class RecorderState extends State<Recorder> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         IconButton(
-          icon: Icon(isRecording ? Icons.stop : Icons.mic),
+          icon: Icon(widget.isRecording ? Icons.stop : Icons.mic),
           iconSize: 64.0,
           onPressed: _toggleRecording,
         ),
-        Text(isRecording ? 'Recording...' : 'Press to Record'),
+        Text(widget.isRecording ? 'Recording...' : 'Press to Record'),
       ],
     );
   }
 
-  void _toggleRecording() async {
-    if (isRecording) {
-      final path = await record.stop();
-      widget.onStop(path!);
-      setState(() {
-        isRecording = false;
-      });
+  Future<void> _toggleRecording() async {
+    try{
+    if (widget.isRecording) {
+     _stopRecording();
     } else {
-      await record.start();
+      _startRecording();
+    }
+  }catch(e){
+    if (kDebugMode) {
+      print('Could not toggle recording : $e');
+    }
+    }
+    }
+
+    Future<void> _startRecording() async{
+    if( await widget.record.hasPermission()) {
+      await widget.record.start();
+    }
       setState(() {
-        isRecording = true;
+        widget.isRecording = true;
       });
     }
+
+  Future<void> _stopRecording() async {
+    String? path = await widget.record.stop();
+    setState(() {
+      widget.isRecording = false;
+      widget.path = path!;
+    });
   }
 }

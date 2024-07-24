@@ -41,15 +41,16 @@ class RecordingScreen extends StatefulWidget {
 }
 
 class RecordingScreenState extends State<RecordingScreen> {
-  late AudioRecorder audioRecord;
+  late Record audioRecord;
   late AudioPlayer audioPlayer;
   bool showPlayer = false;
+  bool isRecording = false;
   String? audioPath;
 
   @override
   void initState(){
     audioPlayer = AudioPlayer();
-    audioRecord = AudioRecorder();
+    audioRecord = Record();
     super.initState();
   }
 
@@ -75,9 +76,7 @@ class RecordingScreenState extends State<RecordingScreen> {
               },
             ),
           )
-              : Recorder( record: audioRecord,
-            onStop: (path) {
-            },
+              : Recorder( record: audioRecord, isRecording: isRecording, path: "./lib/bip",
           ),
         ),
       ),
