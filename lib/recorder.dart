@@ -7,17 +7,18 @@ class Recorder extends StatefulWidget {
   bool isRecording;
   String path;
 
-  Recorder({super.key, required this.record, required this.isRecording, required this.path});
+  Recorder(
+      {super.key,
+      required this.record,
+      required this.isRecording,
+      required this.path});
 
   @override
   RecorderState createState() => RecorderState();
 }
 
 class RecorderState extends State<Recorder> {
-
   @override
-
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -34,27 +35,27 @@ class RecorderState extends State<Recorder> {
   }
 
   Future<void> _toggleRecording() async {
-    try{
-    if (widget.isRecording) {
-     _stopRecording();
-    } else {
-      _startRecording();
+    try {
+      if (widget.isRecording) {
+        _stopRecording();
+      } else {
+        _startRecording();
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('Could not toggle recording : $e');
+      }
     }
-  }catch(e){
-    if (kDebugMode) {
-      print('Could not toggle recording : $e');
-    }
-    }
-    }
+  }
 
-    Future<void> _startRecording() async{
-    if( await widget.record.hasPermission()) {
+  Future<void> _startRecording() async {
+    if (await widget.record.hasPermission()) {
       await widget.record.start();
     }
-      setState(() {
-        widget.isRecording = true;
-      });
-    }
+    setState(() {
+      widget.isRecording = true;
+    });
+  }
 
   Future<void> _stopRecording() async {
     String? path = await widget.record.stop();

@@ -1,10 +1,8 @@
-
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:record/record.dart';
 import 'recorder.dart';
 import 'audio_player.dart';
-
 
 class RecordingsScreen extends StatelessWidget {
   final String folderName;
@@ -48,7 +46,7 @@ class RecordingScreenState extends State<RecordingScreen> {
   String? audioPath;
 
   @override
-  void initState(){
+  void initState() {
     audioPlayer = AudioPlayer();
     audioRecord = Record();
     super.initState();
@@ -68,16 +66,19 @@ class RecordingScreenState extends State<RecordingScreen> {
         body: Center(
           child: showPlayer
               ? Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25),
-            child: AudioPlayerWidget(
-              source: audioPath!,
-              onDelete: () {
-                setState(() => showPlayer = false);
-              },
-            ),
-          )
-              : Recorder( record: audioRecord, isRecording: isRecording, path: "./lib/bip",
-          ),
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: AudioPlayerWidget(
+                    source: audioPath!,
+                    onDelete: () {
+                      setState(() => showPlayer = false);
+                    },
+                  ),
+                )
+              : Recorder(
+                  record: audioRecord,
+                  isRecording: isRecording,
+                  path: "./lib/bip",
+                ),
         ),
       ),
     );

@@ -1,11 +1,8 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:game_recordings/recording_screen.dart';
 import 'package:provider/provider.dart';
 
 import 'folder_provider.dart';
-
 
 class FolderListScreen extends StatelessWidget {
   final TextEditingController _folderController = TextEditingController();
@@ -22,14 +19,15 @@ class FolderListScreen extends StatelessWidget {
             itemCount: provider.folders.length,
             itemBuilder: (context, index) {
               final folder = provider.folders[index];
-              final folderName= folder.path.split('\\').last;
+              final folderName = folder.path.split('\\').last;
               return ListTile(
                 title: Text(folderName),
                 onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => RecordingsScreen(folderName: folderName),
+                      builder: (context) =>
+                          RecordingsScreen(folderName: folderName),
                     ),
                   );
                 },

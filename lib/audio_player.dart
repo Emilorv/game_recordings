@@ -5,7 +5,8 @@ class AudioPlayerWidget extends StatefulWidget {
   final String source;
   final VoidCallback onDelete;
 
-  const AudioPlayerWidget({super.key, required this.source, required this.onDelete});
+  const AudioPlayerWidget(
+      {super.key, required this.source, required this.onDelete});
 
   @override
   AudioPlayerWidgetState createState() => AudioPlayerWidgetState();
